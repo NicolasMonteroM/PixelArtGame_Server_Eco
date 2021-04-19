@@ -46,6 +46,8 @@ public class Main extends PApplet {
 			switch (e.getMessage()) {
 
 			case "FLYYYY":
+				
+				
 				break;
 
 			}
@@ -62,6 +64,12 @@ public class Main extends PApplet {
 
 			}
 		}
+	}
+	
+	public void drawGame() {
+		
+		P1.drawPlayer();
+		P2.drawPlayer();
 	}
 
 	public void startConnection() {
