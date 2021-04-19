@@ -16,6 +16,8 @@ public class Main extends PApplet {
 	}
 
 	public void settings() {
+		
+		//cambio c:
 
 		size(1200, 700);
 
