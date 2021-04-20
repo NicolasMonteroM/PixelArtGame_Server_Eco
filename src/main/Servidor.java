@@ -33,7 +33,7 @@ public class Servidor extends PApplet {
 		launcher.start();
 		screen = 1;
 
-		P1 = new Ladybug(this, 650, 300, 243, 243, 3);
+		P1 = new Ladybug(this, 550, 300, 243, 243, 3);
 		P2 = new Bee(this, 150, 300, 243, 243, 3);
 
 	}
@@ -42,8 +42,8 @@ public class Servidor extends PApplet {
 		screen1 = loadImage("images/menu.jpg");
 		screen2 = loadImage("images/instructions.jpg");
 		screen3 = loadImage("images/connecting.jpg");
-		backgroundP1 = loadImage("images/fondojuego.png");
-		backgroundP2 = loadImage("images/fondojuego.png");
+		backgroundP1 = loadImage("images/fondojuego1.png");
+		backgroundP2 = loadImage("images/fondojuego2.png");
 		playOff = loadImage("images/playOff.png");
 		playOn = loadImage("images/playOn.png");
 	}
@@ -83,8 +83,8 @@ public class Servidor extends PApplet {
 			break;
 
 		case 4: // Pantalla de juego
-			image(backgroundP1, 0, posP1);
-			image(backgroundP2, 350, posP2);
+			image(backgroundP1, 0, (-3645 + 600) - posP1, 350, 3645);
+			image(backgroundP2, 350, (-3645 + 600) - posP2, 350, 3645);
 
 			P1.drawPlayer();
 			P2.drawPlayer();
@@ -97,13 +97,7 @@ public class Servidor extends PApplet {
 	public void notify(Message e, Object obj) {
 		System.out.println(e.getMessage());
 	}
-	
-	public void asdfg() {
-		
-		launcher.getSessions();
-	}
-	
-	
+
 	/*
 	 * public void notify(Message e, Object obj) {
 	 * 
@@ -154,7 +148,7 @@ public class Servidor extends PApplet {
 			break;
 
 		case 2: // Pantalla Instrucciones
-			if (dist(mouseX, mouseY, 350, 500) < 40){
+			if (dist(mouseX, mouseY, 350, 500) < 40) {
 				System.out.println("click");
 				screen = 3;
 			}
