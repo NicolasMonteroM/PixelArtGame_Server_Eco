@@ -1,11 +1,17 @@
 package main;
 
+import com.google.gson.Gson;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Servidor extends PApplet {
 
-	private TCPLauncher launcher;
+//	private TCPLauncher launcher;
+
+	private TCPConnection1 P1conection;
+	private TCPConnection2 P2conection;
+
 	private Ladybug P1;
 	private Bee P2;
 	PImage screen1, screen2, screen3, backgroundP1, backgroundP2, playOff, playOn;
@@ -26,15 +32,23 @@ public class Servidor extends PApplet {
 
 	public void setup() {
 
+		P1conection = new TCPConnection1();
+		P1conection.setMain(this);
+		P1conection.start();
+
+		P2conection = new TCPConnection2();
+		P2conection.setMain(this);
+		P2conection.start();
+
 		preload();
 
-		launcher = TCPLauncher.getInstance();
-		launcher.setServidor(this);
-		launcher.start();
+		// launcher = TCPLauncher.getInstance();
+		// launcher.setServidor(this);
+		// launcher.start();
 		screen = 1;
 
-		P1 = new Ladybug(this, 550, 300, 243, 243, 3);
-		P2 = new Bee(this, 150, 300, 243, 243, 3);
+		P1 = new Ladybug(this, 550, 300, 243, 243, 3, 0);
+		P2 = new Bee(this, 150, 300, 243, 243, 3, 0);
 
 	}
 
@@ -83,11 +97,36 @@ public class Servidor extends PApplet {
 			break;
 
 		case 4: // Pantalla de juego
-			image(backgroundP1, 0, (-3645 + 600) - posP1, 350, 3645);
-			image(backgroundP2, 350, (-3645 + 600) - posP2, 350, 3645);
+
+			/*
+			 * for (int i = 0; i < launcher.getSessions().size(); i++) { Session session =
+			 * launcher.getSessions().get(i); }
+			 */
+
+			if (P1.getDistancia() >= 550) {
+				screen = 5;
+				gameOver(P1);
+			}
+
+			if (P2.getDistancia() >= 550) {
+				screen = 5;
+				gameOver(P2);
+			}
+
+
+			int bgStart = -3335 + 300;
+			int bgPosYP1 = (bgStart + P1.getDistancia() * 5);
+			int bgPosYP2 = (bgStart + P1.getDistancia() * 5);
+
+			image(backgroundP1, 0, bgPosYP1, 350, 3645);
+			image(backgroundP2, 350, bgPosYP2, 350, 3645);
 
 			P1.drawPlayer();
 			P2.drawPlayer();
+
+			break;
+
+		case 5:
 
 			break;
 		}
@@ -96,45 +135,58 @@ public class Servidor extends PApplet {
 
 	public void notify(Message e, Object obj) {
 		System.out.println(e.getMessage());
+
+		if (obj instanceof TCPConnection1) {
+
+			switch (e.getMessage()) {
+
+			case "MOVEE":
+
+				P1.movePlayer();
+				System.out.println("MOVEEEEE");
+				System.out.println(P1.getDistancia());
+
+				break;
+			}
+		}
+
+		if (obj instanceof TCPConnection2) {
+
+			switch (e.getMessage()) {
+
+			case "MOVEE":
+
+				P2.movePlayer();
+				System.out.println("MOVEEEEE");
+				System.out.println(P2.getDistancia());
+
+				break;
+			}
+
+		}
 	}
 
-	/*
-	 * public void notify(Message e, Object obj) {
-	 * 
-	 * if (obj instanceof TCPConnection1) {
-	 * 
-	 * System.out.println("Player 1: " + e.getMessage());
-	 * 
-	 * switch (e.getMessage()) {
-	 * 
-	 * case "FLYYYY":
-	 * 
-	 * break;
-	 * 
-	 * } }
-	 * 
-	 * if (obj instanceof TCPConnection2) {
-	 * 
-	 * System.out.println("Player 2: " + e.getMessage());
-	 * 
-	 * switch (e.getMessage()) {
-	 * 
-	 * case "FLYYYY": break;
-	 * 
-	 * } } }
-	 */
-
-	public void gameOver() {
+	public void gameOver(Object obj) {
+		
+		
 
 	}
 
 	public void restartGame() {
+		P1.setDistancia(0);
+		P2.setDistancia(0);
 
 	}
-
-	public void cuandoLlegueElMensaje(Session s, String mensaje) {
-		System.out.println("Mensaje recibido por parte del " + s.getID() + ":" + mensaje);
-	}
+	/*
+	 * public void cuandoLlegueElMensaje(Session s, String mensaje) {
+	 * System.out.println("Mensaje recibido por parte del " + s.getID() + ":" +
+	 * mensaje); Message msg = new Message(mensaje); notify(msg, s);
+	 * 
+	 * Gson gson = new Gson(); Message message = gson.fromJson(mensaje,
+	 * Message.class);
+	 * 
+	 * }
+	 */
 
 	public void mousePressed() {
 		System.out.println(mouseX + "::" + mouseY);
