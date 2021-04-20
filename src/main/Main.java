@@ -1,6 +1,7 @@
 package main;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Main extends PApplet {
 
@@ -9,6 +10,10 @@ public class Main extends PApplet {
 
 	private Player P1;
 	private Player P2;
+	
+	private PImage screen1,screen2,screen3,backgroundP1,backgroundP2;
+	private int screen = 1;
+	private int posP1 = -290, posP2 = -290;
 
 	public static void main(String[] args) {
 		PApplet.main(Main.class.getName());
@@ -19,7 +24,7 @@ public class Main extends PApplet {
 		
 		//cambio c:
 
-		size(1200, 700);
+		size(700, 600);
 
 	}
 
@@ -31,9 +36,36 @@ public class Main extends PApplet {
 		P2conection = new TCPConnection2();
 		P2conection.setMain(this);
 
+		screen1 = loadImage("../images/menu.png");
+		screen2 = loadImage("../images/instructions.png");
+		screen3 = loadImage("../images/connecting.png");
+		backgroundP1 = loadImage("../images/fondojuego.png");
+		backgroundP2 = loadImage("../images/fondojuego.png");
 	}
 
 	public void draw() {
+		background(50);
+		imageMode(CENTER);
+
+		switch(screen) {
+		case 1: // Pantalla Menu Principal
+			image(screen1, 350, 300);
+		break;
+		
+		case 2: // Pantalla Instrucciones
+			image(screen2, 350, 300);
+		break;
+		
+		case 3: // Pantalla Conexion
+			image(screen3, 350, 300);
+		break;
+		
+		case 4: // Pantalla de juego
+			image(backgroundP1, 175, posP1);
+			image(backgroundP2, 525, posP2);
+
+		break;
+		}
 
 	}
 
