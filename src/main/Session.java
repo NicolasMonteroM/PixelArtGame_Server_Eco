@@ -27,7 +27,6 @@ public class Session extends Thread{
 			InputStream is = socket.getInputStream();
 			OutputStream out = socket.getOutputStream();
 
-
 			writer = new BufferedWriter(new OutputStreamWriter(out));
 			BufferedReader breader = new BufferedReader( new InputStreamReader(is));
 

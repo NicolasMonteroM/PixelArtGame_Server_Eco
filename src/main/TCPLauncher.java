@@ -1,13 +1,8 @@
 package main;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-
-import com.google.gson.Gson;
 
 public class  TCPLauncher extends Thread {
 
@@ -21,13 +16,10 @@ public class  TCPLauncher extends Thread {
 		}
 		return instance;
 	}
-
 	
 	private Servidor observer;
 	private ServerSocket server;
 	private ArrayList<Session> sessions;
-	
-
 
 	// Método de suscripción
 	public void setServidor (Servidor observer) {
@@ -58,6 +50,14 @@ public class  TCPLauncher extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Session> getSessions() {
+		return sessions;
+	}
+
+	public void setSessions(ArrayList<Session> sessions) {
+		this.sessions = sessions;
 	}
 
 }

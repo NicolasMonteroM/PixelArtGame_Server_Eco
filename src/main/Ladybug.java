@@ -1,6 +1,7 @@
 package main;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 
 public class Ladybug extends Player {
@@ -12,8 +13,10 @@ public class Ladybug extends Player {
 	}
 
 	public void drawPlayer() {
+		this.app.imageMode(PConstants.CENTER);
 		this.ladyBug = this.app.loadImage("./images/ladybug.png");
 		app.image(ladyBug, posX, posY, width, height);
+		this.app.imageMode(PConstants.CORNER);
 
 	}
 
