@@ -11,25 +11,24 @@ public class Ladybug {
 	private int posY;
 	private PApplet app;
 	private int distancia;
-	private int vidas;
 	private int width, height, speed;
 	
-	public Ladybug(PApplet app, int posX, int posY, int width, int height, int vidas, int distancia) {
+	public Ladybug(PApplet app, int posX, int posY, int width, int height, int distancia) {
 
 		this.posX = posX;
 		this.posY = posY;
 		this.app = app;
 		this.width = width;
 		this.height = height;
-		this.vidas = vidas;
 		this.distancia = distancia;
-		this.speed = 5;
+		this.speed = 10;
 
 	}
 	
 	public void movePlayer() {
-		this.distancia += speed;
-
+		if (distancia < 550) {
+			this.distancia += speed;	
+		}
 	}
 
 	public void drawPlayer() {
@@ -64,14 +63,6 @@ public class Ladybug {
 		this.distancia = distancia;
 	}
 
-	public int getVidas() {
-		return vidas;
-	}
-
-	public void setVidas(int vidas) {
-		this.vidas = vidas;
-	}
-
 	public int getWidth() {
 		return width;
 	}
@@ -95,7 +86,5 @@ public class Ladybug {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	
-	
 	
 }

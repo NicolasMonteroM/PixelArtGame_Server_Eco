@@ -1,4 +1,5 @@
 package main;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,12 +15,16 @@ public class TCPConnection1 extends Thread {
 
 	@Override
 	public void run() {
+
 		try {
+
+			// creamos un server socket en el puerto 5000
 			ServerSocket server = new ServerSocket(5000);
 			System.out.println("Waiting connection...");
 
+			// aceptamos conexión
 			Socket socket = server.accept();
-			System.out.println("Connected on 5000");
+			System.out.println("Connected on 8000");
 
 			InputStream is = socket.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);
@@ -27,17 +32,21 @@ public class TCPConnection1 extends Thread {
 
 			while (true) {
 
+				// guardamos el mensaje recibido
 				String dataReceived = breader.readLine();
-				Gson gson = new Gson();
 
+				// serialización gson
+				Gson gson = new Gson();
 				Message c = gson.fromJson(dataReceived, Message.class);
 
+				// notifica a la clase principal el mensaje
 				ref.notify(c, this);
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public void setMain(Servidor main) {
